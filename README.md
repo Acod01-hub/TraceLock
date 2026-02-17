@@ -1,4 +1,4 @@
-# 📱 The Missing Phone - Mystery Investigation Game
+# 📱 TraceLock - Transforming Digital Behaviour into Investigative Intelligence
 An interactive web-based mystery game where you explore a missing person's phone to uncover a dark conspiracy.
 
 ## 🎮 Game Overview

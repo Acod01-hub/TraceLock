@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Missing Phone - A Mystery Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Phone Device -->
+        <div class="phone" id="phone">
+            <div class="phone-screen">
+                <!-- Lock Screen -->
+                <div class="screen active" id="lockScreen">
+                    <div class="lock-time">14:32</div>
+                    <div class="lock-date">March 15, 2024</div>
+                    <div class="notification-preview">
+                        <div class="notif-icon">📱</div>
+                        <div class="notif-content">
+                            <strong>Unknown Contact</strong>
+                            <p>You shouldn't have this phone...</p>
+                        </div>
+                    </div>
+                    <div class="unlock-prompt">Swipe up to unlock</div>
+                    <button class="unlock-btn" onclick="unlockPhone()">UNLOCK</button>
+                </div>
+
+                <!-- Home Screen -->
+                <div class="screen" id="homeScreen">
+                    <div class="status-bar">
+                        <span>📶 Signal</span>
+                        <span>14:32</span>
+                        <span>🔋 67%</span>
+                    </div>
+                    <div class="wallpaper">
+                        <h2 class="phone-owner">Maya's Phone</h2>
+                    </div>
+                    <div class="app-grid">
+                        <div class="app" onclick="openApp('messages')">
+                            <div class="app-icon">💬</div>
+                            <div class="app-name">Messages</div>
+                            <div class="app-badge">12</div>
+                        </div>
+                        <div class="app" onclick="openApp('photos')">
+                            <div class="app-icon">📷</div>
+                            <div class="app-name">Photos</div>
+                        </div>
+                        <div class="app" onclick="openApp('notes')">
+                            <div class="app-icon">📝</div>
+                            <div class="app-name">Notes</div>
+                            <div class="app-badge">3</div>
+                        </div>
+                        <div class="app" onclick="openApp('social')">
+                            <div class="app-icon">📱</div>
+                            <div class="app-name">Social</div>
+                        </div>
+                        <div class="app" onclick="openApp('email')">
+                            <div class="app-icon">✉️</div>
+                            <div class="app-name">Email</div>
+                            <div class="app-badge">5</div>
+                        </div>
+                        <div class="app" onclick="openApp('files')">
+                            <div class="app-icon">📁</div>
+                            <div class="app-name">Files</div>
+                        </div>
+                        <div class="app locked" onclick="showLocked('contacts')">
+                            <div class="app-icon">👥</div>
+                            <div class="app-name">Contacts</div>
+                            <div class="lock-overlay">🔒</div>
+                        </div>
+                        <div class="app locked" onclick="showLocked('research')">
+                            <div class="app-icon">🔬</div>
+                            <div class="app-name">Research</div>
+                            <div class="lock-overlay">🔒</div>
+                        </div>
+                    </div>
+                    <div class="home-button" onclick="goHome()">⬤</div>
+                </div>
+
+                <!-- Messages App -->
+                <div class="screen" id="messagesScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Messages</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="message-list">
+                            <div class="message-item urgent" onclick="openConversation('cipher')">
+                                <div class="contact-avatar">🕵️</div>
+                                <div class="message-preview">
+                                    <strong>Unknown - Cipher</strong>
+                                    <p>You need to find the truth. Time is running out.</p>
+                                    <span class="time">2 min ago</span>
+                                </div>
+                            </div>
+                            <div class="message-item" onclick="openConversation('priya')">
+                                <div class="contact-avatar">👩</div>
+                                <div class="message-preview">
+                                    <strong>Priya (Best Friend)</strong>
+                                    <p>Maya, where are you? We're all worried...</p>
+                                    <span class="time">1 hour ago</span>
+                                </div>
+                            </div>
+                            <div class="message-item" onclick="openConversation('rohan')">
+                                <div class="contact-avatar">👨</div>
+                                <div class="message-preview">
+                                    <strong>Rohan (Classmate)</strong>
+                                    <p>Did you tell anyone about the project?</p>
+                                    <span class="time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="message-item" onclick="openConversation('mom')">
+                                <div class="contact-avatar">👩‍👧</div>
+                                <div class="message-preview">
+                                    <strong>Mom</strong>
+                                    <p>Please call me back. I'm getting worried.</p>
+                                    <span class="time">Yesterday</span>
+                                </div>
+                            </div>
+                            <div class="message-item corrupted" onclick="showCorrupted()">
+                                <div class="contact-avatar">❌</div>
+                                <div class="message-preview">
+                                    <strong>[CORRUPTED DATA]</strong>
+                                    <p>█████ ███ ████ ██████...</p>
+                                    <span class="time">3 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversation Screen -->
+                <div class="screen" id="conversationScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="backToMessages()">←</button>
+                        <h3 id="conversationName">Conversation</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="conversation" id="conversationContent"></div>
+                        <div class="choice-buttons" id="choiceButtons"></div>
+                    </div>
+                </div>
+
+                <!-- Notes App -->
+                <div class="screen" id="notesScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Notes</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="note-list">
+                            <div class="note-item" onclick="openNote('diary')">
+                                <h4>📔 Personal Diary</h4>
+                                <p>March 10 - Something's not right...</p>
+                            </div>
+                            <div class="note-item" onclick="openNote('suspicious')">
+                                <h4>⚠️ People Watching Me</h4>
+                                <p>List of suspicious encounters...</p>
+                            </div>
+                            <div class="note-item encrypted" onclick="openNote('encrypted')">
+                                <h4>🔐 Encrypted Notes</h4>
+                                <p>████████████████</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note Detail Screen -->
+                <div class="screen" id="noteDetailScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="backToNotes()">←</button>
+                        <h3 id="noteTitle">Note</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="note-content" id="noteContent"></div>
+                    </div>
+                </div>
+
+                <!-- Photos App -->
+                <div class="screen" id="photosScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Photos</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="photo-grid">
+                            <div class="photo-item" onclick="viewPhoto('campus')">
+                                <div class="photo-thumb">🏫</div>
+                                <span>University Campus</span>
+                            </div>
+                            <div class="photo-item" onclick="viewPhoto('friends')">
+                                <div class="photo-thumb">👥</div>
+                                <span>With Friends</span>
+                            </div>
+                            <div class="photo-item" onclick="viewPhoto('lab')">
+                                <div class="photo-thumb">🔬</div>
+                                <span>Research Lab</span>
+                            </div>
+                            <div class="photo-item corrupted" onclick="viewPhoto('corrupted')">
+                                <div class="photo-thumb glitch">⚠️</div>
+                                <span>Corrupted Image</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Photo Detail Screen -->
+                <div class="screen" id="photoDetailScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="backToPhotos()">←</button>
+                        <h3 id="photoTitle">Photo</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="photo-detail" id="photoDetail"></div>
+                    </div>
+                </div>
+
+                <!-- Files App -->
+                <div class="screen" id="filesScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Files</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="file-list">
+                            <div class="file-item" onclick="openFile('project')">
+                                <div class="file-icon">📄</div>
+                                <div class="file-info">
+                                    <strong>Project_Surveillance.pdf</strong>
+                                    <span>Modified 4 days ago</span>
+                                </div>
+                            </div>
+                            <div class="file-item" onclick="openFile('emails')">
+                                <div class="file-icon">📧</div>
+                                <div class="file-info">
+                                    <strong>Encrypted_Emails.zip</strong>
+                                    <span>Modified 3 days ago</span>
+                                </div>
+                            </div>
+                            <div class="file-item locked" onclick="showLocked('hidden')">
+                                <div class="file-icon">🔒</div>
+                                <div class="file-info">
+                                    <strong>Hidden_Folder</strong>
+                                    <span>Requires password</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social App -->
+                <div class="screen" id="socialScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Social Media</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="social-feed">
+                            <div class="social-post">
+                                <div class="post-header">
+                                    <strong>Maya Kapoor</strong>
+                                    <span>5 days ago</span>
+                                </div>
+                                <p>Another beautiful day at campus! 📚☀️ #StudentLife #UniversityVibes</p>
+                                <div class="post-stats">❤️ 127 likes</div>
+                            </div>
+                            <div class="social-post">
+                                <div class="post-header">
+                                    <strong>Maya Kapoor</strong>
+                                    <span>1 week ago</span>
+                                </div>
+                                <p>Excited about the new research project! Can't wait to share more soon 🔬</p>
+                                <div class="post-stats">❤️ 89 likes</div>
+                            </div>
+                            <div class="social-post deleted">
+                                <div class="post-header">
+                                    <strong>Maya Kapoor</strong>
+                                    <span>2 weeks ago</span>
+                                </div>
+                                <p class="deleted-text">[This post has been deleted]</p>
+                                <div class="post-hint" onclick="recoverPost()">🔍 Attempt to recover?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email App -->
+                <div class="screen" id="emailScreen">
+                    <div class="app-header">
+                        <button class="back-btn" onclick="goHome()">←</button>
+                        <h3>Email</h3>
+                    </div>
+                    <div class="app-content">
+                        <div class="email-list">
+                            <div class="email-item urgent" onclick="openEmail('warning')">
+                                <strong>⚠️ Warning - Anonymous</strong>
+                                <p>Stop asking questions. You're being watched.</p>
+                                <span>2 days ago</span>
+                            </div>
+                            <div class="email-item" onclick="openEmail('professor')">
+                                <strong>Prof. Sharma - Meeting Request</strong>
+                                <p>We need to discuss your involvement in the project...</p>
+                                <span>4 days ago</span>
+                            </div>
+                            <div class="email-item" onclick="openEmail('cipher')">
+                                <strong>Cipher - You're Not Alone</strong>
+                                <p>I know what you discovered. Let me help you.</p>
+                                <span>6 days ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for locked items -->
+                <div class="modal" id="lockedModal">
+                    <div class="modal-content">
+                        <h3>🔒 Locked</h3>
+                        <p id="lockedMessage">This app is locked. Find clues to unlock it.</p>
+                        <button onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+
+                <!-- Modal for general messages -->
+                <div class="modal" id="messageModal">
+                    <div class="modal-content">
+                        <h3 id="modalTitle">Message</h3>
+                        <p id="modalMessage"></p>
+                        <button onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Info Panel -->
+        <div class="info-panel">
+            <h1>📱 The Missing Phone</h1>
+            <p class="subtitle">A Mystery Investigation Game</p>
+            <div class="game-description">
+                <h3>🔍 The Story</h3>
+                <p>You've found a phone belonging to <strong>Maya Kapoor</strong>, a university student who has mysteriously vanished. As you explore her phone, you'll uncover secrets, lies, and a conspiracy that runs deeper than you imagined.</p>
+                
+                <h3>🎮 How to Play</h3>
+                <ul>
+                    <li>Explore apps on Maya's phone</li>
+                    <li>Read messages, notes, and emails</li>
+                    <li>Make choices that affect the story</li>
+                    <li>Solve puzzles to unlock hidden content</li>
+                    <li>Discover the truth about Maya's disappearance</li>
+                </ul>
+
+                <h3>⚠️ Important</h3>
+                <p>Your choices matter. Trust the wrong person, and you might never find Maya. Some apps are locked and require you to find clues elsewhere.</p>
+
+                <div class="progress-tracker">
+                    <h4>Investigation Progress</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <p id="progressText">Clues Found: 0/15</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
